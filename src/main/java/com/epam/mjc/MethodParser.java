@@ -19,7 +19,7 @@ public class MethodParser {
      * @param signatureString source string to parse
      * @return {@link MethodSignature} object filled with parsed values from source string
      */
-    public MethodSignature parseFunction(String signatureString) {
+    public  MethodSignature parseFunction(String signatureString) {
         throw new UnsupportedOperationException("You should implement this method.");
     }
 }
