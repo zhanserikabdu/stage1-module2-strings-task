@@ -1,5 +1,8 @@
 package com.epam.mjc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MethodParser {
 
     /**
@@ -19,7 +22,41 @@ public class MethodParser {
      * @param signatureString source string to parse
      * @return {@link MethodSignature} object filled with parsed values from source string
      */
-    public  MethodSignature parseFunction(String signatureString) {
-        throw new UnsupportedOperationException("You should implement this method.");
+    public MethodSignature parseFunction(String signatureString) {
+        List<MethodSignature.Argument> arguments = new ArrayList<>();
+        MethodSignature methodSignature;
+        String temp[] = signatureString.split("\\(");
+        String splitMethodsData[] = temp[0].split(" ");
+        String parametersData = temp[1].replace(")", "");
+        if(parametersData.length() != 0) {
+            String[] pairParameters = parametersData.split(",");
+            for (int i = 0; i < pairParameters.length; i++) {
+                String pair = pairParameters[i].trim();
+                String[] pair2 = pair.split(" ");
+                MethodSignature.Argument argument = new MethodSignature.Argument(pair2[0], pair2[1]);
+                arguments.add(argument);
+            }
+            if(splitMethodsData.length == 3){
+                methodSignature = new MethodSignature(splitMethodsData[2],arguments);
+                methodSignature.setAccessModifier(splitMethodsData[0]);
+                methodSignature.setReturnType(splitMethodsData[1]);
+            }
+            else{
+                methodSignature = new MethodSignature(splitMethodsData[1], arguments);
+                methodSignature.setReturnType(splitMethodsData[0]);
+            }
+        }
+        else{
+            if (splitMethodsData.length == 3) {
+                methodSignature = new MethodSignature(splitMethodsData[2],arguments);
+                methodSignature.setAccessModifier(splitMethodsData[0]);
+                methodSignature.setReturnType(splitMethodsData[1]);
+            }
+            else{
+                methodSignature = new MethodSignature(splitMethodsData[1], arguments);
+                methodSignature.setReturnType(splitMethodsData[0]);
+            }
+        }
+        return methodSignature;
     }
 }
